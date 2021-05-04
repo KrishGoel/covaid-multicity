@@ -25,7 +25,6 @@
         overflow: auto;
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
-        -ms-overflow-style: -ms-autohiding-scrollbar;
     }
     footer .horizontal-scrollable a {
         display: inline-block;
@@ -43,13 +42,13 @@
 
 <footer>
     <div class="width-restriction">
-        <h3 class="mono">v2.0</h3>
+        <a href="https://github/KrishSkywalker/covaid" class="mono"><h3>-v2.0</h3></a>
         <div class="horizontal-scrollable">
             <a href="/about"><h5>Verification</h5></a>
+            <a href="/about"><h5>Partners</h5></a>
             <a href="/about"><h5>About Us</h5></a>
             <a href="/about"><h5>Twitter</h5></a>
             <a href="/about"><h5>Instagram</h5></a>
-            <a href="/volunteer"><h5>Source</h5></a>
         </div>
     </div>
 </footer>	

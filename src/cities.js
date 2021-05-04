@@ -17,5 +17,5 @@ export const cities = [
             food: "4a729eb78021409fa44c5082693fbd4a"
 
         }
-    },
+    }
 ]

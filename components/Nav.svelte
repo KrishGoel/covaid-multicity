@@ -46,8 +46,9 @@
         <h1 style="margin-bottom: 0">CovAID</h1>
         <div class="horizontal-scrollable">
             <a href="/"><h5>Cities</h5></a>
+            <a href="/blog"><h5>Blog</h5></a>
+            <a href="/donate"><h5>Donate</h5></a>
             <a href="/volunteer"><h5>Volunteer</h5></a>
-            <a href="/about"><h5>Partners</h5></a>
         </div>
     </div>
 </nav>	

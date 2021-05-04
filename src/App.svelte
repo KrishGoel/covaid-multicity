@@ -8,10 +8,12 @@
 	import Index from './routes/Index.svelte'
 	import About from './routes/About.svelte'
 	import Volunteer from './routes/Volunteer.svelte'
+	import Donate from './routes/Donate.svelte'
 	
 	router('/', () => (page = Index))
 	router('/about', () => (page = About))
 	router('/volunteer', () => (page = Volunteer))
+	router('/donate', () => (page = Donate))
 
 	// City routing
 	import City from './routes/CityResources.svelte'
@@ -22,6 +24,21 @@
 			next()
 		},
 		() => (page = City)
+	)
+
+	// Blog routing
+	import Blog from './routes/Blog.svelte'
+	router('/blog', () => (page = Blog))
+
+	import BlogPost from "./routes/BlogPost.svelte"
+	router(
+		'/blog/:id',
+		(ctx, next) => {
+			params = ctx.params
+			next()
+		},
+		() => (page = BlogPost)
+
 	)
 	
 	router.start()
