@@ -2,7 +2,8 @@
 
 	// Routing 
 	import router from "page"
-	let page;
+	let page
+	let params
 	
 	import Index from './routes/Index.svelte'
 	import About from './routes/About.svelte'
@@ -11,6 +12,17 @@
 	router('/', () => (page = Index))
 	router('/about', () => (page = About))
 	router('/volunteer', () => (page = Volunteer))
+
+	// City routing
+	import City from './routes/CityResources.svelte'
+	router(
+		'/city/:city',
+		(ctx, next) => {
+			params = ctx.params
+			next()
+		},
+		() => (page = City)
+	)
 	
 	router.start()
 
@@ -21,6 +33,10 @@
 
 <Nav/>
 
-<svelte:component this="{page}"/>
+<br/><br/>
+
+<svelte:component this="{page}" params="{params}"/>
+
+<br/><br/>
 
 <Footer/>

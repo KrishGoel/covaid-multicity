@@ -1,28 +1,55 @@
 <style>
-    footer a {
-        display: inline-block
+    footer {
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        background-color: var(--light-dark-bg);
+        box-shadow: 0 10px 20px -15px rgb(11, 3, 26);
     }
-    footer i {
-        font-size: 25px; 
-        position: relative; 
-        top: 3px;
-        margin-right: 10px
+
+    footer .width-restriction {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    footer .width-restriction h3 {
+        margin-right: 20px;
+    }
+
+    footer .width-restriction a {
+        margin-right: 20px
+    }
+
+    footer .horizontal-scrollable {
+        overflow: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+    footer .horizontal-scrollable a {
+        display: inline-block;
+        margin-right: 5px;
+        color: var(--link-color);
+        padding: 5px;
+        box-shadow: inset 0 -2px 0 var(--link-color);
+        transition: 0.2s;
+    }
+    footer .horizontal-scrollable a:hover {
+        box-shadow: inset 0 -30px 0 var(--link-color);
+        color: var(--dark-bg)
     }
 </style>
 
 <footer>
     <div class="width-restriction">
-        <h4 class="mono">-v1.1</h4>
-        <div>
-            <a href="https://www.instagram.com/covaid.resources/" target="_blank">
-                <i class='fa fa-instagram'></i>
-            </a>
-            <a href="https://github.com/KrishSkywalker/covaid" target="_blank">
-                <i class='fa fa-github'></i>
-            </a>
-            <a href="/volunteer">
-                <h4>Volunteer with us</h4>
-            </a>
+        <h3 class="mono">v2.0</h3>
+        <div class="horizontal-scrollable">
+            <a href="/about"><h5>Verification</h5></a>
+            <a href="/about"><h5>About Us</h5></a>
+            <a href="/about"><h5>Twitter</h5></a>
+            <a href="/about"><h5>Instagram</h5></a>
+            <a href="/volunteer"><h5>Source</h5></a>
         </div>
     </div>
-</footer>
+</footer>	
