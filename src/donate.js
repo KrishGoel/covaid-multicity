@@ -1,7 +1,7 @@
 export const donations = [
     {
         org: "Youth Congress",
-        description: "Our Twitter bot mainly works by filtering out data related to covid resources and providing users with the most appropriate and verified leads. Users can click on the various detailed options on our website",
-        link: ""
+        description: "Seeing their outstanding work for COVID relief in the nation, CovAID wishes to support their functioning to the greatest degree possible.  Please help us in doing so by donating at this link",
+        link: "https://www.ycea.in/donate/"
     }
 ]

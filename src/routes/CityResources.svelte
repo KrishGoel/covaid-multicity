@@ -31,6 +31,7 @@
     // console.log(cities[cityIndex])
 
     // Needs
+    let bed = false
     let plasma = false
     let cylinder = false
     let concentrator = false
@@ -40,12 +41,15 @@
     let ivermectin = false
     let methylprednisolone = false
     let fabiflu = false
-    let favipiravir = false
     let doctor = false
     let homeicu = false
     let food = false
 
     // Potion fetch reqs
+    const fetchBeds = (async () => {
+        var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.beds)
+        return await response.json()
+    })()
     const fetchPlasma = (async () => {
         var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.plasma)
         return await response.json()
@@ -82,10 +86,6 @@
         var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.fabiflu)
         return await response.json()
     })()
-    const fetchFavipiravir = (async () => {
-        var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.favipiravir)
-        return await response.json()
-    })()
     const fetchDoctor = (async () => {
         var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.doctor)
         return await response.json()
@@ -106,6 +106,11 @@
         search = []
         query = "https://twitter.com/search?q=verified+" + cityName + "+"
         var needs = [
+            {
+                "name": "Beds",
+                "need": bed,
+                "query": "bed+OR+oxygen+bed+OR+icu+OR+ventilator"
+            },
             {
                 "name": "Plasma Donor",
                 "need": plasma,
@@ -154,12 +159,7 @@
             {
                 "name": "FabiFlu",
                 "need": fabiflu,
-                "query": "fabiflu+OR+(fabi+flu)"
-            },
-            {
-                "name": "Favipiravir",
-                "need": favipiravir,
-                "query": "favipiravir"
+                "query": "fabiflu+OR+fabi+flu+OR++favipiravir+OR+dexamethasone"
             },
             {
                 "name": "Home ICU",
@@ -229,6 +229,18 @@
             <div class="col-3">
                 <div class="card">
                     <div class="width-restriction">
+                        <h2>🏥 Beds</h2>
+                        <br/>
+                        <!-- Plasma checkbox -->
+                        <input type=checkbox id="bed" bind:checked={bed}/>
+                        <label for="bed">
+                            Hospital Bed
+                        </label><br/>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="width-restriction">
                         <h2>🩸 Plasma</h2>
                         <br/>
                         <!-- Plasma checkbox -->
@@ -239,6 +251,13 @@
                     </div>
                 </div>
                 <!-- <br/> -->
+                
+
+            </div>
+
+            <!-- 2nd Column -->
+            <div class="col-3">
+
                 <div class="card">
                     <div class="width-restriction">
                         <h2>🧯 Oxygen</h2>
@@ -256,36 +275,31 @@
                     </div>
                 </div>
 
-            </div>
 
-            <!-- 2nd Column -->
-            <div class="col-3">
-
-
-                <div class="card">
+                <!-- <div class="card">
                     <div class="width-restriction">
                         <h2>💊 Injections</h2>
                         <br/>
-                        <!-- Remdesivir checkbox -->
+                        Remdesivir checkbox
                         <input type=checkbox id="remdesivir" bind:checked={remdesivir}/>
                         <label for="remdesivir">
                             Remdesivir
                         </label><br/>
 
-                        <!-- Tocilizumab checkbox -->
+                        Tocilizumab checkbox
                         <input type=checkbox id="tocilizumab" bind:checked={tocilizumab}/>
                         <label for="tocilizumab">
                             Tocilizumab
                         </label><br/>
 
-                        <!-- Itolizumab checkbox -->
+                        Itolizumab checkbox
                         <input type=checkbox id="itolizumab" bind:checked={itolizumab}/>
                         <label for="itolizumab">
                             Itolizumab
                         </label><br/>
                         
                     </div>
-                </div>
+                </div> -->
 
                 <div class="card">
                     <div class="width-restriction">
@@ -306,13 +320,7 @@
                         <!-- FabiFlu checkbox -->
                         <input type=checkbox id="fabiflu" bind:checked={fabiflu}/>
                         <label for="fabiflu">
-                            FabiFlu
-                        </label><br/>
-    
-                        <!-- Favipiravir checkbox -->
-                        <input type=checkbox id="favipiravir" bind:checked={favipiravir}/>
-                        <label for="favipiravir">
-                            Favipiravir
+                            FabiFlu/Favipiravir (Dexamethasone)
                         </label><br/>
                         
                     </div>
@@ -360,19 +368,71 @@
         </div>
 
         <br/><br/>
+        
+        <button on:click={showDBNow}>
+            <h5>Search verified leads on our database</h5>
+        </button>
 
         <button on:click={twitterDeploy(city)}>
             <h5>Search the latest leads on Twitter</h5>
         </button>
-        <button on:click={showDBNow}>
-            <h5>Search verified leads on our database</h5>
-        </button>
+
+        <br/><br/>
+
+        <p>
+            Note: According to a recent provision passed by the Government, Remdesivir and Tocilizumab are to be administered by hospitals and their authorised dealers ONLY. Thus we have removed the filter for the same. 
+            <br/>
+            For further information, or updates on availability of the injections, kindly DM us via &nbsp;
+            <a href="https://twitter.com/covaid_support" target="_blank">Twitter @CovAID_support</a> &nbsp; or &nbsp;<a href="https://www.instagram.com/covaid.resources/" target="_blank">Instagram @covaid.resources</a>.
+        </p>
 
         <br/><br/>
 
         {#if showDB}
         <h1>Resources from our personally-verified database</h1>
         <br/>
+
+        <!-- Beds DB -->
+        {#if bed}
+            <h2>Hospital beds</h2>
+            {#await fetchBeds}
+            <p>Hospital Beds loading...</p>
+            {:then data}
+            <div class="row">
+                {#each range(0,3,1) as i, index}
+                <div class="col-3">
+                    {#each data as lead, j}
+                    {#if lead.fields.available}
+                    {#if j%3 == i}
+                    <div class="card">
+                        <div class="width-restriction">
+                            <h2>{lead.fields.name}</h2>
+                            <h5><strong>Last checked:</strong> {lead.fields.timestamp}</h5>
+                            <br/>
+                            <p>📍 {lead.fields.location}</p>
+                            <p>📞 
+                                <a href="tel: {lead.fields.contact}">
+                                    {lead.fields.contact}
+                                </a>
+                            </p>
+                            <br/>
+                            {#if lead.fields.notes != undefined}
+                            <p>
+                                {@html lead.fields.notes}
+                            </p>
+                            {/if}
+                        </div>
+                    </div>
+                    {/if}
+                    {/if}
+                    {/each}
+                </div>
+                {/each}
+            </div>
+            {:catch error}
+            <p>{errorMessage}</p>
+            {/await}
+        {/if}
 
         <!-- Plasma DB -->
         {#if plasma}
@@ -501,7 +561,7 @@
         {/if}
 
         <!-- Remdesivir DB -->
-        {#if remdesivir}
+        <!-- {#if remdesivir}
             <h2>Remdesivir</h2>
             {#await fetchRemdesivir}
             <p>Remdesivirs loading...</p>
@@ -540,10 +600,10 @@
             {:catch error}
             <p>{errorMessage}</p>
             {/await}
-        {/if}
+        {/if} -->
 
         <!-- Tocilizumab DB -->
-        {#if tocilizumab}
+        <!-- {#if tocilizumab}
             <h2>Tocilizumab</h2>
             {#await fetchTocilizumab}
             <p>Tocilizumabs loading...</p>
@@ -582,10 +642,10 @@
             {:catch error}
             <p>{errorMessage}</p>
             {/await}
-        {/if}
+        {/if} -->
 
         <!-- Itolizumab DB -->
-        {#if itolizumab}
+        <!-- {#if itolizumab}
             <h2>Itolizumab</h2>
             {#await fetchItolizumab}
             <p>Itolizumabs loading...</p>
@@ -624,7 +684,7 @@
             {:catch error}
             <p>{errorMessage}</p>
             {/await}
-        {/if}
+        {/if} -->
 
         <!-- Ivermectin DB -->
         {#if ivermectin}
@@ -712,51 +772,9 @@
 
         <!-- Fabiflu DB -->
         {#if fabiflu}
-            <h2>FabiFlu</h2>
+            <h2>FabiFlu/Favipiravir (Dexamethasone)</h2>
             {#await fetchFabiflu}
             <p>FabiFlus loading...</p>
-            {:then data}
-            <div class="row">
-                {#each range(0,3,1) as i, index}
-                <div class="col-3">
-                    {#each data as lead, j}
-                    {#if lead.fields.available}
-                    {#if j%3 == i}
-                    <div class="card">
-                        <div class="width-restriction">
-                            <h2>{lead.fields.name}</h2>
-                            <h5><strong>Last checked:</strong> {lead.fields.timestamp}</h5>
-                            <br/>
-                            <p>📍 {lead.fields.location}</p>
-                            <p>📞 
-                                <a href="tel: {lead.fields.contact}">
-                                    {lead.fields.contact}
-                                </a>
-                            </p>
-                            <br/>
-                            {#if lead.fields.notes != undefined}
-                            <p>
-                                {@html lead.fields.notes}
-                            </p>
-                            {/if}
-                        </div>
-                    </div>
-                    {/if}
-                    {/if}
-                    {/each}
-                </div>
-                {/each}
-            </div>
-            {:catch error}
-            <p>{errorMessage}</p>
-            {/await}
-        {/if}
-
-        <!-- Favipiravir DB -->
-        {#if favipiravir}
-            <h2>Favipiravir</h2>
-            {#await fetchFavipiravir}
-            <p>Favipiravirs loading...</p>
             {:then data}
             <div class="row">
                 {#each range(0,3,1) as i, index}
@@ -879,7 +897,7 @@
         {/if}
 
         <!-- Food Services DB -->
-        {#if fetchFood}
+        {#if food}
             <h2>Food Services</h2>
             {#await fetchFood}
             <p>Food Services loading...</p>

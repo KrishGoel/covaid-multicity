@@ -52,7 +52,7 @@
 
         <br/><br/>
     
-        <section class="blog-section">
+        <!-- <section class="blog-section">
             <h1>Quick resources and Blog</h1>
             <br/>
             <div class="row">
@@ -75,7 +75,7 @@
             </div>
         </section>
 
-        <br/><br/>
+        <br/><br/> -->
 
         <section class="donate-section">
             <h1>Donate</h1>
@@ -89,7 +89,7 @@
                             <div class="width-restriction">
                                 <h2>{donation.org}</h2>
                                 <p>{donation.description}</p>
-                                <a href="{donation.link}" style="color: var(--link-green); font-weight: bold">Donate</a>
+                                <a href="{donation.link}" style="color: var(--link-green); font-weight: bold" target="__blank">Donate</a>
                             </div>
                         </div>
                     </div>

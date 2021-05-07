@@ -28,7 +28,7 @@
                         <div class="width-restriction">
                             <h2>{donation.org}</h2>
                             <p>{donation.description}</p>
-                            <a href="{donation.link}" style="color: var(--link-green); font-weight: bold">Donate</a>
+                            <a href="{donation.link}" target="_blank" style="color: var(--link-green); font-weight: bold">Donate</a>
                         </div>
                     </div>
                 </div>

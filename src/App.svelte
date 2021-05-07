@@ -9,12 +9,14 @@
 	import About from './routes/About.svelte'
 	import Volunteer from './routes/Volunteer.svelte'
 	import Donate from './routes/Donate.svelte'
+	import Partners from './routes/Partners.svelte'
 	import Verification from './routes/Verification.svelte'
 	
 	router('/', () => (page = Index))
 	router('/about', () => (page = About))
 	router('/volunteer', () => (page = Volunteer))
 	router('/donate', () => (page = Donate))
+	router('/partners', () => (page = Partners))
 	router('/verification', () => (page = Verification))
 
 	// City routing
