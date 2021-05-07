@@ -1,14 +1,11 @@
 <script>
     // Range
     import {range} from '../range'
-
     let errorMessage = "Potion failed"
-
     // Params n dat
     export let params
     
     import {cities} from '../cities.js'
-
     var citiesList = [];
     for (var i = 0; i < cities.length; i++) {
         citiesList[i] = cities[i].city
@@ -23,15 +20,13 @@
         console.log('City doesnot exist')
     }
     // City exists
-
     var cityIndex = citiesList.indexOf(city)
     
     city = cities[cityIndex].displayName
-
     // console.log(cities[cityIndex])
-
     // Needs
-    let bed = false
+    let icu = false
+    let ventilator = false
     let plasma = false
     let cylinder = false
     let concentrator = false
@@ -44,10 +39,13 @@
     let doctor = false
     let homeicu = false
     let food = false
-
     // Potion fetch reqs
-    const fetchBeds = (async () => {
-        var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.beds)
+    const fetchICU = (async () => {
+        var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.icu)
+        return await response.json()
+    })()
+    const fetchVentilator = (async () => {
+        var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.ventilator)
         return await response.json()
     })()
     const fetchPlasma = (async () => {
@@ -98,7 +96,6 @@
         var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.food)
         return await response.json()
     })()
-
     // Twitter Bot
     var search;
     var query;
@@ -191,18 +188,15 @@
         console.log("Twitter search deployed")
     }
     // To call, use twitterDeploy(city)
-
     // var showDB = false
     var showDB = false //Make this false
     function showDBNow() {
         showDB = true
     }
-
     // Tweet for help
     function tweetForHelp(cityName){
         window.open(("https://twitter.com/intent/tweet?text=Hey%20@CovAID_support,%20I%20need%20insertResourceHere%20in%20"+cityName+".%20This%20is%20an%20SOS!"), '_blank').focus()
     }
-
     // Instagram DM Helpline
     function dmHelpline() {
         window.open("https://instagram.com/covaid.resources", "_blank").focus()
@@ -231,10 +225,16 @@
                     <div class="width-restriction">
                         <h2>🏥 Beds</h2>
                         <br/>
-                        <!-- Plasma checkbox -->
-                        <input type=checkbox id="bed" bind:checked={bed}/>
-                        <label for="bed">
-                            Hospital Bed
+                        <!-- ICU checkbox -->
+                        <input type=checkbox id="icu" bind:checked={icu}/>
+                        <label for="icu">
+                            Bed with ICU
+                        </label><br/>
+
+                        <!-- Ventilator checkbox -->
+                        <input type=checkbox id="ventilator" bind:checked={ventilator}/>
+                        <label for="ventilator">
+                            Bed with Ventilator
                         </label><br/>
                     </div>
                 </div>
@@ -260,7 +260,7 @@
 
                 <div class="card">
                     <div class="width-restriction">
-                        <h2>🧯 Oxygen</h2>
+                        <h2>😷 Oxygen</h2>
                         <br/>
                         <!-- Cylinder checkbox -->
                         <input type=checkbox id="cylinder" bind:checked={cylinder}/>
@@ -285,13 +285,11 @@
                         <label for="remdesivir">
                             Remdesivir
                         </label><br/>
-
                         Tocilizumab checkbox
                         <input type=checkbox id="tocilizumab" bind:checked={tocilizumab}/>
                         <label for="tocilizumab">
                             Tocilizumab
                         </label><br/>
-
                         Itolizumab checkbox
                         <input type=checkbox id="itolizumab" bind:checked={itolizumab}/>
                         <label for="itolizumab">
@@ -330,7 +328,7 @@
             
             <!-- 3rd Column -->
             <div class="col-3">
-                
+                {#if city != "Delhi"}
                 <div class="card">
                     <div class="width-restriction">
                         <h2>🩺 Doctor's Opinion</h2>
@@ -343,17 +341,26 @@
                         
                     </div>
                 </div>
+                {/if}
 
                 <div class="card">
                     <div class="width-restriction">
-                        <h2>🍴 Home ICU & Food Services</h2>
+                        <h2>🏡 Home ICU</h2>
                         <br/>
                         <!-- Home ICU checkbox -->
                         <input type=checkbox id="homeicu" bind:checked={homeicu}/>
                         <label for="homeicu">
                             Home ICU
                         </label><br/>
+                        
+                    </div>
+                </div>
 
+                {#if city != "Delhi"}
+                <div class="card">
+                    <div class="width-restriction">
+                        <h2>🍴 Food Services</h2>
+                        <br/>
                         <!-- Food Services checkbox -->
                         <input type=checkbox id="food" bind:checked={food}/>
                         <label for="food">
@@ -362,6 +369,20 @@
                         
                     </div>
                 </div>
+
+                {:else}
+                <br/>
+                <p>
+                    For doctor consultations, food services and testing centres in Delhi, please visit our partner website
+                </p>
+                <a href="https://www.covinfo.net/" target="_blank">
+                    <button>
+                        <h5>CoVinfo.net</h5>
+                    </button>
+                </a>
+
+
+                {/if}
 
             </div>
             
@@ -392,11 +413,53 @@
         <h1>Resources from our personally-verified database</h1>
         <br/>
 
-        <!-- Beds DB -->
-        {#if bed}
-            <h2>Hospital beds</h2>
-            {#await fetchBeds}
-            <p>Hospital Beds loading...</p>
+        <!-- ICU DB -->
+        {#if icu}
+            <h2>Hospital beds with ICU</h2>
+            {#await fetchICU}
+            <p>Hospital Beds with ICU loading...</p>
+            {:then data}
+            <div class="row">
+                {#each range(0,3,1) as i, index}
+                <div class="col-3">
+                    {#each data as lead, j}
+                    {#if lead.fields.available}
+                    {#if j%3 == i}
+                    <div class="card">
+                        <div class="width-restriction">
+                            <h2>{lead.fields.name}</h2>
+                            <h5><strong>Last checked:</strong> {lead.fields.timestamp}</h5>
+                            <br/>
+                            <p>📍 {lead.fields.location}</p>
+                            <p>📞 
+                                <a href="tel: {lead.fields.contact}">
+                                    {lead.fields.contact}
+                                </a>
+                            </p>
+                            <br/>
+                            {#if lead.fields.notes != undefined}
+                            <p>
+                                {@html lead.fields.notes}
+                            </p>
+                            {/if}
+                        </div>
+                    </div>
+                    {/if}
+                    {/if}
+                    {/each}
+                </div>
+                {/each}
+            </div>
+            {:catch error}
+            <p>{errorMessage}</p>
+            {/await}
+        {/if}
+
+        <!-- Ventilator DB -->
+        {#if ventilator}
+            <h2>Hospital beds with Ventilator</h2>
+            {#await fetchVentilator}
+            <p>Hospital Beds with Ventilator loading...</p>
             {:then data}
             <div class="row">
                 {#each range(0,3,1) as i, index}

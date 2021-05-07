@@ -19,7 +19,8 @@
     <div class="width-restriction">
         <h1>Quick resources and Blog</h1>
         <br/>
-        <div class="row">
+        <p>🛠 We're still working on this content</p>
+        <!-- <div class="row">
             {#each range(0,3,1) as i, index}
             {#each blogCards as blog, j}
                 {#if j%3 == i}
@@ -36,6 +37,6 @@
                 {/if}
             {/each}
             {/each}
-        </div>
+        </div> -->
     </div>
 </section>
