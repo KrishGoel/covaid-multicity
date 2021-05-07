@@ -50,6 +50,10 @@ body {
 
 }
 
+::selection {
+	background-color: var(--link-green);
+	color: var(--dark-bg)
+}
 
 /* Font sizing */
 
