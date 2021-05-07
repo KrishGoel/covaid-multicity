@@ -36,6 +36,7 @@
     let ivermectin = false
     let methylprednisolone = false
     let fabiflu = false
+    let dexamethasone = false
     let doctor = false
     let homeicu = false
     let food = false
@@ -82,6 +83,10 @@
     })()
     const fetchFabiflu = (async () => {
         var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.fabiflu)
+        return await response.json()
+    })()
+    const fetchDexamethasone = (async () => {
+        var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.dexamethasone)
         return await response.json()
     })()
     const fetchDoctor = (async () => {
@@ -156,7 +161,12 @@
             {
                 "name": "FabiFlu",
                 "need": fabiflu,
-                "query": "fabiflu+OR+fabi+flu+OR++favipiravir+OR+dexamethasone"
+                "query": "fabiflu+OR+fabi+flu+OR++favipiravir"
+            },
+            {
+                "name": "Dexamethasone",
+                "need": dexamethasone,
+                "query": "dexamethasone+OR+dexa+methasone"
             },
             {
                 "name": "Home ICU",
@@ -318,7 +328,13 @@
                         <!-- FabiFlu checkbox -->
                         <input type=checkbox id="fabiflu" bind:checked={fabiflu}/>
                         <label for="fabiflu">
-                            FabiFlu/Favipiravir (Dexamethasone)
+                            FabiFlu/Favipiravir
+                        </label><br/>
+
+                        <!-- Dexamethasone checkbox -->
+                        <input type=checkbox id="dexamethasone" bind:checked={dexamethasone}/>
+                        <label for="dexamethasone">
+                            Dexamethasone
                         </label><br/>
                         
                     </div>
@@ -838,6 +854,48 @@
             <h2>FabiFlu/Favipiravir (Dexamethasone)</h2>
             {#await fetchFabiflu}
             <p>FabiFlus loading...</p>
+            {:then data}
+            <div class="row">
+                {#each range(0,3,1) as i, index}
+                <div class="col-3">
+                    {#each data as lead, j}
+                    {#if lead.fields.available}
+                    {#if j%3 == i}
+                    <div class="card">
+                        <div class="width-restriction">
+                            <h2>{lead.fields.name}</h2>
+                            <h5><strong>Last checked:</strong> {lead.fields.timestamp}</h5>
+                            <br/>
+                            <p>📍 {lead.fields.location}</p>
+                            <p>📞 
+                                <a href="tel: {lead.fields.contact}">
+                                    {lead.fields.contact}
+                                </a>
+                            </p>
+                            <br/>
+                            {#if lead.fields.notes != undefined}
+                            <p>
+                                {@html lead.fields.notes}
+                            </p>
+                            {/if}
+                        </div>
+                    </div>
+                    {/if}
+                    {/if}
+                    {/each}
+                </div>
+                {/each}
+            </div>
+            {:catch error}
+            <p>{errorMessage}</p>
+            {/await}
+        {/if}
+
+        <!-- Dexamethasone DB -->
+        {#if dexamethasone}
+            <h2>Dexamethasone</h2>
+            {#await fetchDexamethasone}
+            <p>Dexamethasone loading...</p>
             {:then data}
             <div class="row">
                 {#each range(0,3,1) as i, index}
