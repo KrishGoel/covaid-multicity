@@ -5,6 +5,7 @@
         top: 0;
         background-color: var(--light-dark-bg);
         box-shadow: 0 10px 20px -15px rgb(11, 3, 26);
+        z-index: 5
     }
 
     nav .width-restriction {

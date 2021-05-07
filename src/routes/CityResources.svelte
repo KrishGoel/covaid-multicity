@@ -109,9 +109,14 @@
         query = "https://twitter.com/search?q=verified+" + cityName + "+"
         var needs = [
             {
-                "name": "Beds",
-                "need": bed,
-                "query": "bed+OR+oxygen+bed+OR+icu+OR+ventilator"
+                "name": "ICU",
+                "need": icu,
+                "query": "bed+OR+oxygen+bed+OR+icu"
+            },
+            {
+                "name": "Ventilator",
+                "need": ventilator,
+                "query": "bed+OR+ventilator"
             },
             {
                 "name": "Plasma Donor",
