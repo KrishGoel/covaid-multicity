@@ -3,6 +3,7 @@ export const cities = [
         city: "delhi",
         displayName: "Delhi",
         db: {
+            oxygenBed: "41d3f27c8100413daa45441b8b8c0eae",
             icu: "d98b1dfcb90c478baaee8e3d6e8b6ca3",
             ventilator: "f3673fba54ac4f3c88999c9b4aeedac4",
             plasma: "9573d3c1a17f4c60b8d390231ccd7afc",
@@ -23,6 +24,7 @@ export const cities = [
         city: "kanpur",
         displayName: "Kanpur",
         db: {
+            oxygenBed: "4f915d4776ee460e93c946be231ee86a",
             icu: "f8c83ff1b27e40309b3f18d7da99d94c",
             ventilator: "0a0c20d346424b7a92acba448a16a0c3",
             plasma: "9c48dd805da8452fbc7fcf828880f190",

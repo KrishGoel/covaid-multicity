@@ -49,7 +49,7 @@
 
 <footer>
     <div class="width-restriction">
-        <a href="https://github/KrishSkywalker/covaid" class="mono"><h3>v2.0</h3></a>
+        <a href="https://github.com/KrishSkywalker/covaid" class="mono" target="_blank"><h3>v2.0</h3></a>
         <div class="horizontal-scrollable">
             <a href="/about"><h5>About Us</h5></a>
             <a href="/blog"><h5>Blog</h5></a>

@@ -1,6 +1,6 @@
 <script>
     // Range
-    import {range} from '../range'
+    import {range} from '../range.js'
     let errorMessage = "Potion failed"
     // Params n dat
     export let params
@@ -25,6 +25,7 @@
     city = cities[cityIndex].displayName
     // console.log(cities[cityIndex])
     // Needs
+    let oxygenBed = false
     let icu = false
     let ventilator = false
     let plasma = false
@@ -41,6 +42,10 @@
     let homeicu = false
     let food = false
     // Potion fetch reqs
+    const fetchOxygenBed = (async () => {
+        var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.oxygenBed)
+        return await response.json()
+    })()
     const fetchICU = (async () => {
         var response = await fetch('https://potion-api.vercel.app/table?id=' + cities[cityIndex].db.icu)
         return await response.json()
@@ -109,9 +114,14 @@
         query = "https://twitter.com/search?q=verified+" + cityName + "+"
         var needs = [
             {
+                "name": "Oxygen Bed",
+                "need": oxygenBed,
+                "query": "bed+OR+oxygen+bed"
+            },
+            {
                 "name": "ICU",
                 "need": icu,
-                "query": "bed+OR+oxygen+bed+OR+icu"
+                "query": "icu+OR+icu+bed"
             },
             {
                 "name": "Ventilator",
@@ -204,7 +214,7 @@
     }
     // To call, use twitterDeploy(city)
     // var showDB = false
-    var showDB = false //Make this false
+    var showDB = true //Make this false
     function showDBNow() {
         showDB = true
     }
@@ -240,6 +250,12 @@
                     <div class="width-restriction">
                         <h2>🏥 Beds</h2>
                         <br/>
+                        <!-- Oxygen bed checkbox -->
+                        <input type=checkbox id="oxygenBed" bind:checked={oxygenBed}/>
+                        <label for="oxygenBed">
+                            Bed with Oxygen
+                        </label><br/>
+
                         <!-- ICU checkbox -->
                         <input type=checkbox id="icu" bind:checked={icu}/>
                         <label for="icu">
@@ -433,6 +449,48 @@
         {#if showDB}
         <h1>Resources from our personally-verified database</h1>
         <br/>
+
+        <!-- Oxygen Bed DB -->
+        {#if oxygenBed}
+            <h2>Hospital beds with Oxygen</h2>
+            {#await fetchOxygenBed}
+            <p>Hospital Beds with Oxygen loading...</p>
+            {:then data}
+            <div class="row">
+                {#each range(0,3,1) as i, index}
+                <div class="col-3">
+                    {#each data as lead, j}
+                    {#if lead.fields.available}
+                    {#if j%3 == i}
+                    <div class="card">
+                        <div class="width-restriction">
+                            <h2>{lead.fields.name}</h2>
+                            <h5><strong>Last checked:</strong> {lead.fields.timestamp}</h5>
+                            <br/>
+                            <p>📍 {lead.fields.location}</p>
+                            <p>📞 
+                                <a href="tel: {lead.fields.contact}">
+                                    {lead.fields.contact}
+                                </a>
+                            </p>
+                            <br/>
+                            {#if lead.fields.notes != undefined}
+                            <p>
+                                {@html lead.fields.notes}
+                            </p>
+                            {/if}
+                        </div>
+                    </div>
+                    {/if}
+                    {/if}
+                    {/each}
+                </div>
+                {/each}
+            </div>
+            {:catch error}
+            <p>{errorMessage}</p>
+            {/await}
+        {/if}
 
         <!-- ICU DB -->
         {#if icu}
