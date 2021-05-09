@@ -1,1 +1,1 @@
-# CovAID
+# CovAID -v2.0
