@@ -914,7 +914,7 @@
 
         <!-- Fabiflu DB -->
         {#if fabiflu}
-            <h2>FabiFlu/Favipiravir (Dexamethasone)</h2>
+            <h2>FabiFlu/Favipiravir</h2>
             {#await fetchFabiflu}
             <p>FabiFlus loading...</p>
             {:then data}

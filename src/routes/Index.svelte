@@ -27,6 +27,16 @@
 
 <section>
     <div class="width-restriction">
+        <h1>That's all folks!</h1>
+        <p>
+			Dear Volunteers and Users,
+			<br/>
+			Thank you for all of your incredible efforts in helping CovAID reach over 24,000 users. While we may have slowed down considerably in the past few weeks, your tenacity and alacrity in providing help during the second wave's peak will be preserved in the hearts and minds of all those we managed to assist. It truly held us in awe to watch dozens of you manage an operation at this scale (2 cities, 49 volunteers, over 600 direct resources provided) with comfort and heed. We wish you best of luck and hope that you continue to inspire those around you through your fantastic endeavours. 
+			<br/><br/>
+			Regards,
+			<br/>
+			Team CovAID
+		</p>
         <section class="choose-city-section">
             <h1>Select your city</h1>
             <br/>
